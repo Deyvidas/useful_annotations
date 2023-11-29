@@ -1,3 +1,9 @@
+- [Создание дамп файла для БД](#1)
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
+---
+
 <table style="font-family:monospace;">
     <tr>
         <td>Get all psql commands</td>
@@ -92,3 +98,15 @@
         <td>\g</td>
     </tr>
 </table>
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
+---
+
+<h3 id="1" align="center">Создание дамп файла для БД</h3>
+
+- [Backup and Restore](https://www.postgresql.org/docs/8.1/backup.html)
+
+```bash
+pg_dump -U some_user -h some_host -d db_name > /path/to/dump.sql
+```
