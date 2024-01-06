@@ -8,6 +8,8 @@
 - [Удалить (local) ветку](#4)
 - [Удалить (remote) ветку](#5)
 - [Получить информацию о коммитах](#6)
+- [Подтянуть состояние закомиченных файлов](#7)
+- [Управление незакомиченными изменениями](#8)
 
 ---
 
@@ -77,7 +79,7 @@ git switch -c branch1
 
 # Создать новую ветку с состоянием указанного коммита.
 git switch -c {branch_name} {commit}
-git switch -c branch1
+git switch -c branch1 45e78ad54193a2a7a5c7bbc69c8c3b3959783a24
 # Получить список последних {n} коммитов:
 git log -n {n}
 
@@ -133,9 +135,72 @@ git log -n {n}
 git log -n 2
 ```
 
---- 
+---
 
-<!-- TODO АКТУАЛИЗАЦИЯ И СЛИЯНИЕ ВЕТОК. -->
+<h3 id="7" align="center">Подтянуть состояние закомиченных файлов</h3>
+
+```sh
+# Подтянуть состояние из последнего коммита в ветке {branch_name}.
+git restore --source={branch_name} --worktree {path1} ... {path_n}
+git restore --source=branch1 --worktree ./bar.py ./baz.py
+git restore --source=branch1 --worktree .
+
+# Подтянуть состояние из указанного коммита {commit}.
+git restore --source={commit} --worktree {path1} ... {path_n}
+git restore --source=b70bdc28adc01055c44106347f363b1ccd0ff8d9 --worktree ./bar.py ./baz.py
+git restore --source=b70bdc28adc01055c44106347f363b1ccd0ff8d9 --worktree .
+```
+
+---
+
+<h3 id="8" align="center">Управление незакомиченными изменениями</h3>
+
+<p align="center">Создание</p>
+
+```sh
+# Сохранить все незакомиченные изменения всех директорий/файлов.
+git stash
+
+# Сохранить все незакомиченные изменения всех указанных директорий/файлов.
+git stash -- {path1} ... {path_n}
+git stash -- ./bar.py ./foo.py
+```
+
+<p align="center">Просмотр</p>
+
+```sh
+# Вывести список всех stash-ей:
+git stash list
+
+# Вывести разницу между определенным stash-ом и текущим состоянием.
+git stash show -p stash@{stash_id}
+git stash show -p stash@{0}
+```
+
+<p align="center">Применение</p>
+
+```sh
+# Применить изменения в stash-е под индексом {stash_id} С УДАЛЕНИЕМ stash-а.
+git stash pop stash@{stash_id}
+git stash pop stash@{0}
+
+# Применить изменения в stash-е под индексом {stash_id} БЕЗ УДАЛЕНИЯ stash-а.
+git stash apply stash@{stash_id}
+git stash apply stash@{0}
+```
+
+<p align="center">Удаление</p>
+
+```sh
+# Удалить все stash-ы в stash list.
+git stash clear
+
+# Удалить stash с индексом {stash_id}.
+git stash drop stash@{stash_id}
+git stash drop stash@{0}
+```
+
+---
 
 <h3 id="-" align="center">-</h3>
 
